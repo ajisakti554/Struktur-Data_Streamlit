@@ -1,266 +1,161 @@
-
 import streamlit as st
 
-# Konfigurasi Halaman
+# 1. KONFIGURASI HALAMAN
 st.set_page_config(
-    page_title="Visualisasi Struktur Data Tree",
+    page_title="Mastering Tree Data Structures",
     page_icon="🌳",
-    layout="wide"
+    layout="wide",
+    initial_sidebar_state="expanded"
 )
 
-# Judul Utama Aplikasi
-st.title("🌳 Aplikasi Pembelajaran Struktur Data: Tree")
-st.write("Aplikasi ini mendemonstrasikan implementasi struktur data *Tree* dalam berbagai skenario dunia nyata.")
-st.markdown("---")
+# Custom CSS untuk mempercantik tampilan
+st.markdown("""
+    <style>
+    .main {
+        background-color: #f8fafc;
+    }
+    .stTabs [data-baseweb="tab-list"] {
+        gap: 24px;
+    }
+    .stTabs [data-baseweb="tab"] {
+        height: 50px;
+        white-space: pre-wrap;
+        background-color: #f1f5f9;
+        border-radius: 8px 8px 0px 0px;
+        gap: 1px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+    .stTabs [aria-selected="true"] {
+        background-color: #005088 !important;
+        color: white !important;
+    }
+    div[data-testid="stExpander"] {
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        background-color: white;
+    }
+    </style>
+    """, unsafe_allow_html=True)
 
-# Navigasi Sidebar
-st.sidebar.header("Pilih Studi Kasus")
-st.sidebar.write("Gunakan menu di bawah untuk berpindah studi kasus:")
-studi_kasus = st.sidebar.radio(
-    "Daftar Studi Kasus:",
-    [
-        "Studi Kasus 1: Struktur Organisasi",
-        "Studi Kasus 2: Sistem Folder Komputer",
-        "Studi Kasus 3: Menu Website Universitas",
-        "Studi Kasus 4: Decision Tree Sederhana",
-        "Studi Kasus 5: Silsilah Keluarga"
-    ]
-)
+# 2. SIDEBAR NAVIGATION
+with st.sidebar:
+    st.title("📂 Navigation")
+    selection = st.selectbox(
+        "Pilih Studi Kasus:",
+        ["Home", "1. Struktur Organisasi", "2. Sistem Folder", "3. Menu Website", "4. Decision Tree", "5. Silsilah Keluarga"]
+    )
+    st.divider()
+    st.info("💡 **Tips:** Gunakan tab 'Visual' untuk melihat grafik dan 'Konsep DSA' untuk materi teori.")
 
-st.sidebar.markdown("---")
-st.sidebar.info("💡 **Tips:** Setiap pohon divisualisasikan menggunakan Graphviz bawaan Streamlit.")
-
-# ==========================================
-# STUDI KASUS 1: STRUKTUR ORGANISASI
-# ==========================================
-if studi_kasus == "Studi Kasus 1: Struktur Organisasi":
-    st.header("🏢 Studi Kasus 1: Struktur Organisasi Perusahaan")
-    st.write("Representasi hierarki jabatan dari level tertinggi (Root) hingga level staf (Leaf).")
+# 3. HOME PAGE
+if selection == "Home":
+    st.title("🌳 Visualisasi Struktur Data Tree")
+    st.subheader("Platform Edukasi Interaktif untuk Memahami Hierarki")
     
-    # Input Interaktif Sederhana
-    st.subheader("Kustomisasi Jabatan Utama")
-    ceo_name = st.text_input("Nama CEO / Direktur Utama:", "Aji Sakti Saputra")
-    
-    # Sintaks Graphviz (DOT Language)
-    dot_code = f"""
-    digraph G {{
-        rankdir=TB;
-        node [shape=box, style=filled, color="#E3F2FD", fontname="Arial"];
-        
-        CEO [label="{ceo_name}\\n(Chief Executive Officer)", color="#4CAF50", fontcolor="white"];
-        VP1 [label="VP of Engineering"];
-        VP2 [label="VP of Marketing"];
-        
-        MGR1 [label="Engineering Manager"];
-        MGR2 [label="Product Manager"];
-        MGR3 [label="Social Media Manager"];
-        
-        STF1 [label="Data Scientist"];
-        STF2 [label="Backend Developer"];
-        STF3 [label="Content Writer"];
-        
-        CEO -> VP1;
-        CEO -> VP2;
-        
-        VP1 -> MGR1;
-        VP1 -> MGR2;
-        VP2 -> MGR3;
-        
-        MGR1 -> STF1;
-        MGR1 -> STF2;
-        MGR3 -> STF3;
-    }}
-    """
-    st.graphviz_chart(dot_code)
-    
-    with st.expander("📝 Penjelasan Konsep Tree"):
+    col1, col2 = st.columns([2, 1])
+    with col1:
         st.markdown("""
-        - **Root (Akar):** CEO (Level paling atas, tidak punya parent).
-        - **Parent:** VP of Engineering adalah *parent* dari Engineering & Product Manager.
-        - **Child:** Data Scientist dan Backend Dev adalah *child* dari Engineering Manager.
-        - **Leaf (Daun):** Data Scientist, Backend Developer, Product Manager, dan Content Writer (tidak memiliki child lagi).
+        Pohon (*Tree*) adalah struktur data non-linear yang digunakan untuk merepresentasikan hubungan hierarkis antara elemen-elemennya. 
+        Berbeda dengan Array atau Linked List yang bersifat linear (searah), Tree bercabang dan memiliki tingkatan (level).
+        
+        ### Apa yang akan kamu pelajari?
+        1. **Hierarki Korporat:** Aliran instruksi dalam organisasi.
+        2. **Sistem File:** Manajemen data dalam media penyimpanan.
+        3. **Navigasi Web:** Struktur informasi antarmuka.
+        4. **Logika Keputusan:** Dasar algoritma AI dan klasifikasi.
+        5. **Genealogi:** Hubungan keturunan dan leluhur.
         """)
+    with col2:
+        st.image("https://cdn-icons-png.flaticon.com/512/1653/1653704.png", width=250)
 
-# ==========================================
-# STUDI KASUS 2: SISTEM FOLDER KOMPUTER
-# ==========================================
-elif studi_kasus == "Studi Kasus 2: Sistem Folder Komputer":
-    st.header("💻 Studi Kasus 2: Sistem Folder Komputer")
-    st.write("Menggambarkan struktur direktori penyimpanan file di dalam komputer.")
+# 4. CASE STUDIES LOGIC
+elif selection == "1. Struktur Organisasi":
+    st.title("🏢 Struktur Organisasi Perusahaan")
+    ceo = st.text_input("Nama CEO:", "Aji Sakti Saputra")
     
-    # Interaktivitas: Memilih folder untuk dibuka/ditutup
-    show_subfolders = st.checkbox("Tampilkan isi folder 'Project_Data_Science'", value=True)
+    tab1, tab2, tab3 = st.tabs(["📊 Visual", "📖 Konsep DSA", "💻 Code DOT"])
     
-    sub_project_nodes = ""
-    if show_subfolders:
-        sub_project_nodes = """
-        Project -> dataset_clean.csv;
-        Project -> model_cnn.h5;
-        Project -> dashboard_analytics.py;
+    with tab1:
+        dot = f"""
+        digraph G {{
+            graph [rankdir=TB, bgcolor=transparent];
+            node [shape=record, style="filled,rounded", fillcolor="#E3F2FD", color="#005088", fontname="Arial"];
+            edge [color="#64748b", arrowhead=vee];
+            
+            CEO [label="{{ {ceo} | Root Node }}", fillcolor="#005088", fontcolor=white];
+            CTO [label="{{ CTO | Parent Node }}"];
+            CMO [label="{{ CMO | Parent Node }}"];
+            DEV [label="{{ Developer | Leaf Node }}"];
+            DS [label="{{ Data Scientist | Leaf Node }}"];
+            MKT [label="{{ Marketing | Leaf Node }}"];
+            
+            CEO -> CTO; CEO -> CMO;
+            CTO -> DEV; CTO -> DS;
+            CMO -> MKT;
+        }}
         """
+        st.graphviz_chart(dot)
     
-    dot_code = f"""
-    digraph G {{
-        rankdir=LR; // Mengubah arah dari Kiri ke Kanan agar seperti file explorer
-        node [shape=folder, style=filled, color="#FFF3E0", fontname="Courier"];
-        
-        Root [label="C: (Local Disk)", color="#FF9800", fontcolor="white"];
-        Documents [label="Documents"];
-        Downloads [label="Downloads"];
-        Music [label="Music"];
-        
-        Project [label="Project_Data_Science", color="#FFE082"];
-        Resume [label="CV_Aji.pdf", shape=note, color="#E0F7FA"];
-        Song [label="song.mp3", shape=note, color="#E0F7FA"];
-        
-        Root -> Documents;
-        Root -> Downloads;
-        Root -> Music;
-        
-        Documents -> Project;
-        Documents -> Resume;
-        Music -> Song;
-        
-        {sub_project_nodes}
-    }}
-    """
-    st.graphviz_chart(dot_code)
-    
-    with st.expander("📝 Penjelasan Konsep Tree"):
+    with tab2:
         st.markdown("""
-        - **Hierarki File:** Sistem operasi komputer menggunakan konsep *N-ary Tree* (pohon di mana satu node bisa memiliki banyak anak).
-        - **Arah visualisasi:** Berbeda dengan struktur organisasi, sistem folder lebih natural dibaca dari kiri ke kanan (*Left to Right*).
+        ### Analisis Hierarki
+        - **Root (Akar):** Titik tertinggi (CEO). Semua instruksi berasal dari sini.
+        - **Internal Nodes:** Manajer atau Direktur (CTO/CMO) yang memiliki bawahan.
+        - **Leaves (Daun):** Staf yang tidak memiliki bawahan lagi.
         """)
+    with tab3:
+        st.code(dot)
 
-# ==========================================
-# STUDI KASUS 3: MENU WEBSITE UNIVERSITAS
-# ==========================================
-elif studi_kasus == "Studi Kasus 3: Menu Website Universitas":
-    st.header("🌐 Studi Kasus 3: Menu Website Universitas")
-    st.write("Representasi struktur menu navigasi utama beserta sub-menunya pada website kampus.")
-    
-    dot_code = """
-    digraph G {
-        rankdir=TB;
-        node [shape=plaintext, fontname="Arial"];
-        
-        Home [label="🏠 Home\\n(Main Menu)", fontcolor="#29B6F6", fontsize=16];
-        Profil [label="📋 Tentang Kami"];
-        Akademik [label="🎓 Akademik"];
-        Fasilitas [label="🏢 Fasilitas"];
-        
-        VisiMisi [label="• Visi & Misi"];
-        Sejarah [label="• Sejarah"];
-        Prodi [label="• Program Studi"];
-        Kalender [label="• Kalender Akademik"];
-        Lab [label="• Laboratorium Komputer"];
-        Perpus [label="• Perpustakaan"];
-        
-        Home -> Profil;
-        Home -> Akademik;
-        Home -> Fasilitas;
-        
-        Profil -> VisiMisi;
-        Profil -> Sejarah;
-        
-        Akademik -> Prodi;
-        Akademik -> Kalender;
-        
-        Fasilitas -> Lab;
-        Fasilitas -> Perpus;
-    }
-    """
-    st.graphviz_chart(dot_code)
-    
-    with st.expander("📝 Penjelasan Konsep Tree"):
-        st.markdown("""
-        - **Navigasi Web:** Menu drop-down pada website memanfaatkan konsep Tree untuk mengelompokkan informasi secara logis.
-        - Ketika pengguna mengarahkan kursor ke parent menu (contoh: *Akademik*), sistem akan memunculkan *children* node-nya (*Program Studi*, *Kalender*).
-        """)
+elif selection == "2. Sistem Folder":
+    st.title("💻 Sistem Folder Komputer")
+    tab1, tab2 = st.tabs(["📊 Visual", "📖 Konsep DSA"])
+    with tab1:
+        dot = """
+        digraph G {
+            graph [rankdir=LR, bgcolor=transparent];
+            node [shape=folder, style=filled, fillcolor="#FEF3C7", color="#D97706", fontname="Courier"];
+            
+            C [label="C:/ (Root)", fillcolor="#D97706", fontcolor=white];
+            Users [label="Users"];
+            Windows [label="Windows"];
+            Aji [label="Aji_Sakti"];
+            Docs [label="Documents"];
+            Pic [label="foto.jpg", shape=note, fillcolor="#ECFDF5"];
+            
+            C -> Users; C -> Windows;
+            Users -> Aji;
+            Aji -> Docs;
+            Docs -> Pic;
+        }
+        """
+        st.graphviz_chart(dot)
+    with tab2:
+        st.info("**Path Traversal:** Untuk mengakses `foto.jpg`, sistem harus melewati `C -> Users -> Aji_Sakti -> Documents`. Jalur ini disebut *Edge Path*.")
 
-# ==========================================
-# STUDI KASUS 4: DECISION TREE SEDERHANA
-# ==========================================
-elif studi_kasus == "Studi Kasus 4: Decision Tree Sederhana":
-    st.header("🤖 Studi Kasus 4: Decision Tree Sederhana (Kelulusan Mahasiswa)")
-    st.write("Pohon Keputusan yang mengklasifikasikan status kelulusan mahasiswa berdasarkan kondisi tertentu.")
+elif selection == "4. Decision Tree":
+    st.title("🤖 Decision Tree (Logika Kelulusan)")
+    ipk = st.slider("IPK Mahasiswa:", 0.0, 4.0, 3.0)
     
-    # Input Interaktif untuk Simulasi Jalur Tree
-    st.subheader("Simulasi Logika Decision Tree")
-    ipk = st.slider("1. Berapa IPK Mahasiswa?", 0.0, 4.0, 3.2, step=0.1)
-    skripsi = st.radio("2. Apakah progress Tugas Akhir / Skripsi lancar?", ["Ya", "Tidak"])
-    
-    # Menentukan hasil jalur evaluasi
-    status_kelulusan = ""
-    if ipk >= 3.0:
-        if skripsi == "Ya":
-            status_kelulusan = "Lulus Tepat Waktu (Cumlaude/Sangat Memuaskan)"
-        else:
-            status_kelulusan = "Potensi Terlambat (Kendala Skripsi)"
-    else:
-        status_kelulusan = "Potensi Terlambat (Butuh Perbaikan Nilai)"
-        
-    st.success(f"**Hasil Prediksi Berdasarkan Jalur Tree:** {status_kelulusan}")
-    
-    # Warnai node aktif berdasarkan input slider/radio
-    color_ipk_node = "#81C784" if ipk >= 3.0 else "#E57373"
-    
-    dot_code = f"""
-    digraph G {{
-        rankdir=TB;
-        node [shape=ellipse, style=filled, fontname="Arial"];
-        
-        Root [label="Apakah IPK >= 3.0?", color="{color_ipk_node}"];
-        Skripsi [label="Skripsi Lancar?", color="#FFF176"];
-        
-        Lulus1 [label="Lulus Tepat Waktu! 🎓", shape=box, color="#81C784"];
-        Lulus2 [label="Terlambat (Perbaiki TA) ⚠️", shape=box, color="#E57373"];
-        Lulus3 [label="Terlambat (Perbaiki Nilai) ⚠️", shape=box, color="#E57373"];
-        
-        Root -> Skripsi [label=" Ya (IPK={ipk})"];
-        Root -> Lulus3 [label=" Tidak (IPK={ipk})"];
-        
-        Skripsi -> Lulus1 [label=" Ya"];
-        Skripsi -> Lulus2 [label=" Tidak"];
-    }}
-    """
-    st.graphviz_chart(dot_code)
+    tab1, tab2 = st.tabs(["📊 Visual", "📖 Konsep DSA"])
+    with tab1:
+        status_color = "#BBF7D0" if ipk >= 3.0 else "#FECACA"
+        dot = f"""
+        digraph G {{
+            node [style=filled, fontname="Arial"];
+            Q [label="Apakah IPK >= 3.0?", shape=diamond, fillcolor="#F1F5F9"];
+            Lulus [label="LULUS", shape=box, fillcolor="#BBF7D0"];
+            Gagal [label="TINJAU ULANG", shape=box, fillcolor="#FECACA"];
+            
+            Q -> Lulus [label=" Ya ", color="#22C55E", fontcolor="#22C55E"];
+            Q -> Gagal [label=" Tidak ", color="#EF4444", fontcolor="#EF4444"];
+        }}
+        """
+        st.graphviz_chart(dot)
+    with tab2:
+        st.success("Decision Tree memecah data menjadi himpunan bagian yang lebih kecil sambil pada saat yang sama pohon keputusan terkait dikembangkan secara bertahap.")
 
-# ==========================================
-# STUDI KASUS 5: SILSILAH KELUARGA
-# ==========================================
-elif studi_kasus == "Studi Kasus 5: Silsilah Keluarga":
-    st.header("👨‍👩‍👧‍👦 Studi Kasus 5: Silsilah Keluarga (Family Tree)")
-    st.write("Menggambarkan hubungan keturunan/silsilah dari generasi kakek-nenek hingga anak-cucu.")
-    
-    dot_code = """
-    digraph G {
-        rankdir=TB;
-        node [shape=oval, style=filled, fontname="Arial"];
-        
-        Kakek [label="Kakek & Nenek", color="#D1C4E9"];
-        
-        Ayah [label="Ayah (Anak 1)", color="#BBDEFB"];
-        Paman [label="Paman (Anak 2)", color="#BBDEFB"];
-        Bibi [label="Bibi (Anak 3)", color="#F8BBD0"];
-        
-        Kakak [label="Kakak (Cucu 1)", color="#C8E6C9"];
-        Saya [label="Saya (Cucu 2)", color="#A5D6A7", penwidth=3];
-        Sepupu [label="Sepupu (Cucu 3)", color="#FFE0B2"];
-        
-        Kakek -> Ayah;
-        Kakek -> Paman;
-        Kakek -> Bibi;
-        
-        Ayah -> Kakak;
-        Ayah -> Saya;
-        Paman -> Sepupu;
-    }
-    """
-    st.graphviz_chart(dot_code)
-    
-    with st.expander("📝 Penjelasan Konsep Tree"):
-        st.markdown("""
-        - **Sibling:** Ayah, Paman, dan Bibi adalah *sibling* (saudara kandung) karena memiliki *parent* yang sama (Kakek & Nenek).
-        - **Ancestor:** Kakek & Nenek adalah *ancestor* (leluhur) dari node 'Saya'.
-        """)
+# Footer
+st.markdown("---")
+st.caption("Aplikasi Pembelajaran Struktur Data Tree | Dikembangkan untuk tujuan edukasi.")
+
