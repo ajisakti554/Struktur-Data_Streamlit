@@ -74,7 +74,8 @@ with st.sidebar:
             "3. Menu Website",
             "4. Decision Tree",
             "5. Silsilah Keluarga",
-            "6. Struktur KDKMP"
+            "6. Struktur KDKMP",
+            
         ]
     )
     st.divider()
@@ -111,6 +112,7 @@ if selection == "Home":
         ("3", "🌐", "Menu Website Universitas", "Struktur navigasi menu dan submenu pada website."),
         ("4", "🤖", "Decision Tree Sederhana", "Logika pengambilan keputusan kelulusan mahasiswa."),
         ("5", "👨‍👩‍👧", "Silsilah Keluarga", "Hubungan keturunan dan leluhur dalam keluarga."),
+        ("6", "🏛️", "Struktur KDKMP", "Representasi struktur organisasi KDKMP menggunakan Tree."),
     ]
     for num, icon, title, desc in cases:
         st.markdown(f"""
