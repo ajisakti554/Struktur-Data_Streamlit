@@ -101,7 +101,7 @@ if selection == "Home":
         m1.metric("Root", "1", help="Node teratas, tidak memiliki parent")
         m2.metric("Edge", "n − 1", help="Jumlah sisi pada tree dengan n node")
         m3.metric("Leaf", "≥ 1", help="Node tanpa child")
-        m4.metric("Depth", "Bervariasi", help="Level terjauh dari root")
+        m4.metric("Depth", "Var", help="Level terjauh dari root")
     with col2:
         st.image("https://cdn-icons-png.flaticon.com/512/1653/1653704.png", width=220)
 
