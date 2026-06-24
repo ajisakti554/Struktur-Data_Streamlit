@@ -74,6 +74,7 @@ with st.sidebar:
             "3. Menu Website",
             "4. Decision Tree",
             "5. Silsilah Keluarga",
+            "6. Struktur KDKMP"
         ]
     )
     st.divider()
@@ -354,6 +355,72 @@ elif selection == "5. Silsilah Keluarga":
     with tab3:
         st.code(dot, language="dot")
         st.download_button("⬇️ Download Kode DOT", dot, file_name="silsilah_keluarga.dot")
+
+# ============================================================
+# 9. STUDI KASUS 6 — STRUKTUR KDKMP
+# ============================================================
+elif selection == "6. Struktur KDKMP":
+    st.title("🏛️ Studi Kasus 6: Struktur Organisasi KDKMP")
+    st.caption("Representasikan struktur organisasi KDKMP menggunakan Tree.")
+
+    ketua = st.text_input("Nama Ketua KDKMP:", "Aji Sakti")
+
+    tab1, tab2, tab3 = st.tabs(["📊 Visual", "📖 Konsep DSA", "💻 Code DOT"])
+
+    dot = f"""
+    digraph G {{
+        graph [rankdir=TB, bgcolor=transparent];
+        node [shape=record, style="filled,rounded", fillcolor="#E0F2FE", color="#0369A1", fontname="Arial"];
+        edge [color="#64748b", arrowhead=vee];
+
+        Ketua [label="{{ {ketua} | Ketua KDKMP (Root Node) }}", fillcolor="#0369A1", fontcolor=white];
+
+        Wakil [label="{{ Wakil Ketua | Internal Node }}"];
+        Sekretaris [label="{{ Sekretaris | Internal Node }}"];
+        Bendahara [label="{{ Bendahara | Internal Node }}"];
+        Akademik [label="{{ Divisi Akademik | Internal Node }}"];
+        Humas [label="{{ Divisi Humas | Internal Node }}"];
+
+        StaffA1 [label="{{ Staff Akademik 1 | Leaf Node }}"];
+        StaffA2 [label="{{ Staff Akademik 2 | Leaf Node }}"];
+        StaffH1 [label="{{ Staff Humas 1 | Leaf Node }}"];
+        StaffH2 [label="{{ Staff Humas 2 | Leaf Node }}"];
+
+        Ketua -> Wakil;
+        Ketua -> Sekretaris;
+        Ketua -> Bendahara;
+        Ketua -> Akademik;
+        Ketua -> Humas;
+
+        Akademik -> StaffA1;
+        Akademik -> StaffA2;
+
+        Humas -> StaffH1;
+        Humas -> StaffH2;
+    }}
+    """
+
+    with tab1:
+        st.graphviz_chart(dot)
+
+    with tab2:
+        st.markdown("""
+        ### Analisis Hierarki KDKMP
+        - **Root (Akar):** Node tertinggi yaitu **Ketua KDKMP**, pusat koordinasi organisasi.
+        - **Internal Node:** Node yang memiliki parent dan child, seperti **Divisi Akademik** dan **Divisi Humas**.
+        - **Leaf Node:** Node tanpa child, yaitu staf operasional.
+        - **Depth Root:** 0  
+        - **Depth Staff:** 2  
+        - Struktur ini menunjukkan alur koordinasi dari pimpinan ke divisi lalu ke staf.
+        """)
+
+    with tab3:
+        st.code(dot, language="dot")
+        st.download_button(
+            "⬇️ Download Kode DOT",
+            dot,
+            file_name="struktur_kdkmp.dot"
+        )
 
 # ============================================================
 # FOOTER
